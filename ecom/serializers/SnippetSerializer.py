@@ -4,7 +4,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from ecom.models import (
-    Order,
     Product,
     )
 class ProductDetailSerializer(serializers.HyperlinkedModelSerializer):

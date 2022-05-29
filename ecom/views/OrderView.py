@@ -1,13 +1,19 @@
-from django.shortcuts import render
-from rest_framework import viewsets
+from rest_framework import viewsets,status
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.response import Response
 from ecom.models.Order import Order
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import TokenAuthentication
-from ecom.serializers.OrderSerializer import OrderSerializer
+from ecom.serializers.OrderSerializer import (
+    OrderSerializer, 
+    OrderDetailsSerializer
+)
 
-
+@method_decorator(csrf_exempt, name='dispatch')
 class OrderViewSet(viewsets.ModelViewSet):
-    queryset = Order.objects.all().order_by('id')
+    queryset = Order.objects.all()
     serializer_class = OrderSerializer
-    permission_classes = (IsAuthenticated,)
-    authentication_classes = (TokenAuthentication,)
+    
+    def get_serializer_class(self):
+        if self.request.method in ['POST', 'PUT', 'PATCH']:
+            return OrderSerializer
+        return OrderDetailsSerializer

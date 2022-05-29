@@ -1,14 +1,11 @@
-from django.shortcuts import render
-from rest_framework import viewsets
+from rest_framework import viewsets,status
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.response import Response
 from ecom.models.Product import Product
-from rest_framework.permissions import (
-    IsAdminUser,
-    IsAuthenticatedOrReadOnly
-)
 from ecom.serializers.ProductSerializer import ProductSerializer
 
-
+@method_decorator(csrf_exempt, name='dispatch')
 class ProductViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.all().order_by('id')
+    queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = (IsAdminUser, IsAuthenticatedOrReadOnly,)

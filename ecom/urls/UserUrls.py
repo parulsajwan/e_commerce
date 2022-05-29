@@ -1,13 +1,12 @@
 # ###
-# URL patterns for Customer
+# URL patterns for User
 # ###
 
 from django.urls import path
-from rest_framework.urlpatterns import format_suffix_patterns
 from knox import views as knox_views
 from ecom.views.UserView import  UserRegisterView, UserLoginView 
 
-#for  Customer
+#for  User
 urlpatterns = [
     path('register/', UserRegisterView.as_view(), name='register'),
     path('login/', UserLoginView.as_view(), name='login'),
